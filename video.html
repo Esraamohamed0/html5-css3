@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+      #VidRan {
+        height: 38px;
+        margin: 10px 0;
+        width: 38%;
+}
+    </style>
+</head>
+<body>
+    <div style="">
+        <video 
+        src="mov_bbb.mp4"
+        width="500"
+        height="400"
+        poster="image.jpg"
+        id="vid">
+        </video> 
+    </div>
+    <input type="range" id="VidRan" min="0" max="10">
+          <span id="current">0:00 </span>
+          <span > / </span>
+          <span id="original">0:00 </span><br>
+    <button onclick="play()">Play</button>
+    <button onclick="Stop()">Stop</button>
+    <button onclick="speedbackward2()"><<</button>
+    <button onclick="speedbackward1()"><</button>
+    <button onclick="speedforward1()">></button>
+    <button onclick="speedforward2()">>></button>
+    <input type="range" id="volume" min="0" max="10">
+    <button onclick="enableMute()" >Mute</button>
+    <button onclick="fullScreen()" >Full Screen</button><br><br>
+    <input type="range" onchange="setSpeed()" id="speed" min="0" max="10">
+
+    <script>
+      var vid = document.getElementById("vid");
+      console.log(vid);
+      function play() {  
+        vid.play();
+     }
+     function Stop() {  
+        vid.pause();
+     }
+     function enableMute(){
+        if(vid.muted==false)
+        vid.muted = true;
+        else
+        vid.muted=false;
+     }
+     function speedforward1() {  
+        vid.currentTime+=4;
+     }
+     function speedforward2() {  
+        vid.currentTime+=8;
+     }
+     function speedbackward1() {  
+        vid.currentTime-=4;
+     }
+     function speedbackward2() {  
+        vid.currentTime-=8;
+     }
+     function fullScreen() {  
+        vid.requestFullscreen();
+     }
+     function setSpeed(){
+        vid.playbackRate = speed.value;
+    }
+    volume=document.querySelector('#volume');
+    volume.addEventListener('change',function(e){
+        vid.volume=e.currentTarget.value/100;
+    });
+    var VidRange = document.getElementById("VidRan"); 
+    vid.addEventListener("timeupdate", function(){
+        VidRange.value = vid.currentTime;
+    });
+    VidRange.addEventListener("change", function(){
+        vid.currentTime = VidRange.value;
+    });
+    vid.ontimeupdate = function() {myFunction()};
+    function myFunction() {
+  document.getElementById("demo").innerHTML = vid.currentTime;
+  }
+ 
+  vid.addEventListener("timeupdate", function(){
+    VidRange.value = vid.currentTime;
+    document.getElementById("current").innerText= parseFloat(vid.currentTime/60).toFixed(2)
+    document.getElementById("original").innerText= parseFloat(vid.duration/60).toFixed(2)
+  });
+
+
+    </script>
+</body>
+</html>
